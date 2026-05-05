@@ -41,3 +41,15 @@ If you do not want to upload this whole repo to Railway:
    - example: `git+https://github.com/<org>/<repo>.git@<commit-sha>`
 
 The `Dockerfile` installs that package if the build arg is non-empty.
+
+## Railway build arg for Option A
+
+Set the Railway build arg `MATCHER_AGENT_PIP_SPEC` so the image installs
+`matcher_agent` during build.
+
+- If `matcher-agent` is its own repository:
+  - `git+https://github.com/<org>/<matcher-agent-repo>.git@<commit-sha>`
+- If it lives in a monorepo subdirectory:
+  - `git+https://github.com/<org>/<repo>.git@<commit-sha>#subdirectory=matcher-agent`
+
+Pinning to a commit SHA is recommended to keep deploys reproducible.
