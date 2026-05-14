@@ -6,6 +6,8 @@ This folder is a standalone deployment unit for Railway. It:
 2. Exposes `/health` and `/recommend` with the same query contract as the current API.
 3. Executes the existing recommender command (`matcher_agent.cli.recommend`) via `RECOMMEND_COMMAND`.
 
+The **Dockerfile** installs **`ffmpeg`** (required by local Whisper for MP3 previews), **`libgomp1`** (common PyTorch CPU dependency on Debian slim), **`openai-whisper`** from `requirements.txt`, and your **`matcher_agent`** package when `MATCHER_AGENT_PIP_SPEC` is set at build time. Redeploy after pushing so Railway rebuilds the image.
+
 ## Required environment variables
 
 - `SUPABASE_URL`
@@ -21,6 +23,9 @@ This folder is a standalone deployment unit for Railway. It:
 - `LOCAL_DATA_ROOT` - local cache root (default: `/app/runtime_data`)
 - `REQUIRE_EMBEDDINGS` - `1`/`0` (default `1`)
 - `RECOMMEND_COMMAND` - override recommend command (default: `python -m matcher_agent.cli.recommend`)
+- `WHISPER_LANGUAGE_DETECTION` - `1`/`0` (default `1`) — when `track_language` query params are omitted, run local Whisper on the preview MP3 (requires `openai-whisper` in the image, included via `matcher-agent` dependencies)
+- `WHISPER_MODEL` - `tiny` | `base` | `small` | `medium` | `large` (default `tiny`)
+- `WHISPER_DEVICE` - optional `cuda` or `cpu`; empty = auto
 
 ## Required bucket keys (relative to `SUPABASE_PREFIX`)
 
